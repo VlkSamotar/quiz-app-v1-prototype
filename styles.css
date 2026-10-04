@@ -1,0 +1,288 @@
+/*
+    Copyright (C) 2026 Jakub Březa
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://gnu.org>.
+*/
+
+/* ==========================================================================
+   QuizApp v1 - Produkční styly (Referenční řešení)
+   Klíčová témata: Flexbox Layout, CSS Proměnné, Přístupnost (A11y, WCAG AA)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Globální CSS proměnné (Design Tokens)
+   - Definice barevného schématu s vysokým kontrastem (kontrastní poměr > 7:1)
+   -------------------------------------------------------------------------- */
+:root {
+    /* Pozadí a povrchy */
+    --color-bg: #0f172a;            /* Hluboká břidlicová modř - šetří zrak */
+    --color-surface: #1e293b;       /* Karta otázky - zřetelně oddělená od pozadí */
+    --color-surface-hover: #334155; /* Zvýraznění při interakci */
+    --color-border: #334155;        /* Jemné ohraničení */
+    
+    /* Textové barvy (A11y kontrast splňující WCAG AAA) */
+    --color-text-primary: #f8fafc;  /* Čistě bílý/světlý text pro maximální čitelnost */
+    --color-text-secondary: #94a3b8;/* Tlumený text pro popisky */
+    --color-text-accent: #38bdf8;   /* Světle modrý akcent */
+
+    /* Interaktivní prvky a akcenty */
+    --color-primary: #2563eb;       /* Tlačítka možností */
+    --color-primary-hover: #1d4ed8; /* Tlačítka při najetí myší */
+    --color-focus-ring: #60a5fa;    /* Výrazný obrys pro navigaci z klávesnice */
+    --color-badge-bg: #1e3a8a;      /* Pozadí odznáčku */
+
+    /* Typografie a rozměry */
+    --font-heading: 'Lexend', system-ui, sans-serif;
+    --font-body: 'Lexend', system-ui, sans-serif;
+    --border-radius-sm: 0.5rem;     /* 8px */
+    --border-radius-md: 0.75rem;    /* 12px */
+    --border-radius-lg: 1rem;       /* 16px */
+    --transition-speed: 0.2s;       /* Rychlost přechodových animací */
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Základní nastavení
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* Klíčové pravidlo: padding a border se započítávají do šířky */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: 1.125rem; /* 18px pro skvělou čitelnost i na mobilních zařízeních */
+    line-height: 1.6;
+    
+    /* Flexbox layout pro celou stránku (vertikální uspořádání: hlavička, obsah, patička) */
+    display: flex;
+    flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   3. Záhlaví aplikace (App Header)
+   -------------------------------------------------------------------------- */
+.app-header {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem 1.5rem;
+}
+
+.header-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.badge-phase {
+    background-color: var(--color-badge-bg);
+    color: var(--color-text-accent);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px; /* Pill shape */
+    border: 1px solid var(--color-text-accent);
+}
+
+/* --------------------------------------------------------------------------
+   4. Hlavní obsah a Flexbox Centrování
+   -------------------------------------------------------------------------- */
+.main-content {
+    flex: 1; /* Zabere veškerý zbývající vertikální prostor */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+#quiz-container {
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. Karta s otázkou (Question Card)
+   -------------------------------------------------------------------------- */
+.card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.question-badge {
+    align-self: flex-start;
+    color: var(--color-text-accent);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.question-text {
+    font-size: 1.5rem; /* 24px - dostatečně velké a výrazné */
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   6. Mřížka odpovědí a tlačítka (Answers Grid & Buttons)
+   - Responzivní Flexbox layout pro 4 tlačítka
+   -------------------------------------------------------------------------- */
+.answers-grid {
+    display: flex;
+    flex-direction: column; /* Na mobilu vertikální sloupec */
+    gap: 0.875rem;
+}
+
+/* Na tabletech a desktopech zobrazíme 2 sloupce vedle sebe */
+@media (min-width: 560px) {
+    .answers-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+}
+
+.answer-btn {
+    /* Přístupnost: Minimální výška a velká klikatelná plocha */
+    min-height: 56px;
+    padding: 0.875rem 1.25rem;
+    
+    background-color: #1e293b;
+    color: var(--color-text-primary);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    
+    /* Vnitřní uspořádání tlačítka pomocí Flexboxu */
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    
+    /* Plynulý přechod při interakci */
+    transition: background-color var(--transition-speed) ease,
+                border-color var(--transition-speed) ease,
+                transform var(--transition-speed) ease;
+}
+
+.option-label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-border);
+    color: var(--color-text-accent);
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: var(--border-radius-sm);
+    flex-shrink: 0;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+.option-text {
+    flex: 1;
+    word-break: break-word;
+}
+
+/* Interaktivní stavy tlačítek (Hover, Focus, Active) */
+.answer-btn:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-text-accent);
+    transform: translateY(-2px); /* Jemné nadzvednutí */
+}
+
+.answer-btn:hover .option-label {
+    background-color: var(--color-primary);
+    color: #ffffff;
+}
+
+.answer-btn:active {
+    transform: translateY(1px); /* Efekt stisknutí */
+}
+
+/* Přístupnost pro navigaci klávesnicí (Tabulátor) */
+.answer-btn:focus-visible {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   7. Informační panel pro vývojáře (Dev Hint Panel)
+   -------------------------------------------------------------------------- */
+.dev-hint-panel {
+    background-color: rgba(30, 41, 59, 0.7);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+}
+
+.dev-hint-panel strong {
+    color: var(--color-text-primary);
+}
+
+.dev-hint-panel code {
+    background-color: var(--color-bg);
+    color: var(--color-text-accent);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+/* --------------------------------------------------------------------------
+   8. Patička (Footer)
+   -------------------------------------------------------------------------- */
+.app-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 1.25rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}

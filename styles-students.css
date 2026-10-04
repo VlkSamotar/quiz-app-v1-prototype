@@ -1,0 +1,265 @@
+/*
+    Copyright (C) 2026 Jakub Březa
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://gnu.org>.
+*/
+
+/* ==========================================================================
+   QuizApp v1 - Pracovní styly pro studenty (Studentská verze)
+   Cíl: Doplnit Flexbox layout, přístupnostní pravidla a interaktivní stavy tlačítek
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Globální CSS proměnné (Design Tokens)
+   -------------------------------------------------------------------------- */
+:root {
+    --color-bg: #0f172a;
+    --color-surface: #1e293b;
+    --color-surface-hover: #334155;
+    --color-border: #334155;
+    
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #94a3b8;
+    --color-text-accent: #38bdf8;
+
+    --color-primary: #2563eb;
+    --color-primary-hover: #1d4ed8;
+    --color-focus-ring: #60a5fa;
+    --color-badge-bg: #1e3a8a;
+
+    --font-heading: 'Lexend', system-ui, sans-serif;
+    --font-body: 'Lexend', system-ui, sans-serif;
+    --border-radius-sm: 0.5rem;
+    --border-radius-md: 0.75rem;
+    --border-radius-lg: 1rem;
+    --transition-speed: 0.2s;
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Základní nastavení
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    /* TODO 1: Nastav správný box-sizing pro všechny prvky, aby padding nezvětšoval šířku */
+    /* NÁPOVĚDA: Použij box-sizing: border-box; */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    
+    /* TODO 2: Nastav tělo stránky jako Flexbox kontejner ve svislém směru */
+    /* NÁPOVĚDA: display: flex; flex-direction: column; */
+}
+
+/* --------------------------------------------------------------------------
+   3. Záhlaví aplikace (App Header)
+   -------------------------------------------------------------------------- */
+.app-header {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem 1.5rem;
+}
+
+.header-container {
+    max-width: 800px;
+    margin: 0 auto;
+    
+    /* TODO 3: Zarovnej titulek aplikace a odznak na protilehlé strany a vycentruj je svisle */
+    /* NÁPOVĚDA: display: flex; justify-content: space-between; align-items: center; */
+}
+
+.app-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.badge-phase {
+    background-color: var(--color-badge-bg);
+    color: var(--color-text-accent);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-text-accent);
+}
+
+/* --------------------------------------------------------------------------
+   4. Hlavní obsah a Flexbox Centrování
+   -------------------------------------------------------------------------- */
+.main-content {
+    flex: 1;
+    padding: 2rem 1rem;
+    
+    /* TODO 4: Vycentruj obsah hlavní sekce vodorovně i svisle pomocí Flexboxu */
+    /* NÁPOVĚDA: display: flex; justify-content: center; align-items: center; */
+}
+
+#quiz-container {
+    width: 100%;
+    max-width: 680px;
+    
+    /* TODO 5: Vytvoř svislý Flexbox sloupec s mezerou 1.5rem mezi kartou a nápovědou */
+    /* NÁPOVĚDA: display: flex; flex-direction: column; gap: 1.5rem; */
+}
+
+/* --------------------------------------------------------------------------
+   5. Karta s otázkou (Question Card)
+   -------------------------------------------------------------------------- */
+.card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    
+    /* TODO 6: Uspořádej záhlaví karty a možnosti pod sebe s mezerou 1.75rem */
+    /* NÁPOVĚDA: display: flex; flex-direction: column; gap: 1.75rem; */
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.question-badge {
+    align-self: flex-start;
+    color: var(--color-text-accent);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.question-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   6. Mřížka odpovědí a tlačítka (Answers Grid & Buttons)
+   -------------------------------------------------------------------------- */
+.answers-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+@media (min-width: 560px) {
+    .answers-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+}
+
+.answer-btn {
+    min-height: 56px;
+    padding: 0.875rem 1.25rem;
+    background-color: #1e293b;
+    color: var(--color-text-primary);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    
+    /* TODO 7: Uspořádej písmeno (A/B/C/D) a text odpovědi uvnitř tlačítka vedle sebe a svisle vycentruj */
+    /* NÁPOVĚDA: display: flex; align-items: center; gap: 0.875rem; */
+    
+    /* TODO 8: Přidej plynulý přechod (transition) pro barvu pozadí a rámečku */
+    /* NÁPOVĚDA: transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, transform var(--transition-speed) ease; */
+}
+
+.option-label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-border);
+    color: var(--color-text-accent);
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: var(--border-radius-sm);
+    flex-shrink: 0;
+}
+
+.option-text {
+    flex: 1;
+    word-break: break-word;
+}
+
+/* TODO 9: Nastav interaktivní stav :hover pro tlačítka (změna barvy rámečku a jemný posun) */
+/* NÁPOVĚDA:
+.answer-btn:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-text-accent);
+    transform: translateY(-2px);
+}
+*/
+
+/* TODO 10: Přidej přístupný focus stav pro navigaci pomocí klávesnice Tab */
+/* NÁPOVĚDA:
+.answer-btn:focus-visible {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 3px;
+}
+*/
+
+/* --------------------------------------------------------------------------
+   7. Informační panel pro vývojáře & Patička (Ponecháno funkční)
+   -------------------------------------------------------------------------- */
+.dev-hint-panel {
+    background-color: rgba(30, 41, 59, 0.7);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+}
+
+.dev-hint-panel strong {
+    color: var(--color-text-primary);
+}
+
+.dev-hint-panel code {
+    background-color: var(--color-bg);
+    color: var(--color-text-accent);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.app-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 1.25rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
