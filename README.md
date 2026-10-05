@@ -75,7 +75,7 @@ quiz-app-v1-prototype/
 ├── README.md             # Tento didaktický průvodce a dokumentace architektury
 └── docs/                 # Výchozí podklady a tahák pro výuku
     ├── quiz-app-v1-prototype.md
-    └── zaklady_HTML_Flexbox_OOP_JS_tahak.md
+    └── zaklady-HTML-Flexbox-OOP-JS-tahak.md
 ```
 
 ---
