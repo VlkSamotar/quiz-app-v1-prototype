@@ -157,7 +157,7 @@ const student1 = new Student('Petr', 3);
 const student2 = new Student('Ema', 1);
 
 // Volání metod
-console.log(student1.představSe()); // "Ahoj, jsem Petr a chodím do 3. ročníku."
+console.log(student1.predstavSe()); // "Ahoj, jsem Petr a chodím do 3. ročníku."
 student1.pridatBody(15);            // "Petr má nyní 15 bodů."
 
 ```
