@@ -147,7 +147,7 @@ class Student {
     console.log(`${this.jmeno} má nyní ${this.skore} bodů.`);
   }
 
-  představSe() {
+  predstavSe() {
     return `Ahoj, jsem ${this.jmeno} a chodím do ${this.rocnik}. ročníku.`;
   }
 }
